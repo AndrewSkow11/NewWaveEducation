@@ -1,2 +1,5 @@
 Пишем приложение с бэкендом на Django и фронтендом на React
 https://tproger.ru/translations/django-react-webapp 
+
+Как Подключить React К Django?
+https://www.youtube.com/watch?v=9Rsv99hnqPU&t=985s
