@@ -1,0 +1,2 @@
+Пишем приложение с бэкендом на Django и фронтендом на React
+https://tproger.ru/translations/django-react-webapp 
