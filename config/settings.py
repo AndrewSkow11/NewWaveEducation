@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     # project apps
     'courses.apps.CoursesConfig',
     'rest_framework',
+    'frontend',
     # standard apps
     "django.contrib.admin",
     "django.contrib.auth",
