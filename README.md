@@ -61,7 +61,16 @@ source venv/bin/activate
 ```
 
 3. Установите зависимости из файла requirements.txt
+```bash
+pip install -r requirements.txt
+```
 
 4. Примените миграции 
+```bash
+python3 manage.py migrate 
+```
 
 5. Запустие проект
+```bash
+python3 manage.py runserver
+```
