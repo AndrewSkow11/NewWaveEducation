@@ -17,3 +17,6 @@ https://www.youtube.com/watch?v=8QLCaye3YjQ&t=3915s
 
 
 https://github.com/veryacademy/YT-Django-API-Quiz-React-Frontend-Part2
+
+
+https://www.photondesigner.com/articles/quiz-htmx
