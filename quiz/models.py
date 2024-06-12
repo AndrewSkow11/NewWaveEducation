@@ -1,89 +1,73 @@
 from django.db import models
-from django.contrib.auth import get_user_model
-
-User = get_user_model()
-
-from django.db import models
-from django.contrib.auth import get_user_model
-
-User = get_user_model()
+from django.utils.translation import gettext_lazy as _
 
 
 class Category(models.Model):
-    title = models.CharField(
-        max_length=255,
-        verbose_name='загаловок'
-    )
+    name = models.CharField(max_length=255)
 
     class Meta:
-        verbose_name = 'категория '
-        verbose_name_plural = 'категории'
+        verbose_name = _("Category")
+        verbose_name_plural = ("Categories")
+        ordering = ["id", ]
+
+    def __str__(self):
+        return self.name
+
+
+class Quiz(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='quiz')
+    title = models.CharField(max_length=255, verbose_name=_("Quiz Title"))
+    created_date = models.DateTimeField(auto_now_add=True, verbose_name=_("Created Date"))
+
+    class Meta:
+        verbose_name = _("Quiz")
+        verbose_name_plural = _("Quizzes")
+        ordering = ["id", ]
 
     def __str__(self):
         return self.title
 
 
-class Answer(models.Model):
-    answer_text = models.CharField(
-        max_length=255,
-        verbose_name='текст ответа'
+class Update(models.Model):
+    updated_date = models.DateTimeField(auto_now=True, verbose_name=_("Last Updated"))
+
+    class Meta:
+        abstract = True
+
+
+class Question(Update):
+    SCALE = (
+        (0, _("Fundamental")),
+        (1, _("Beginner")),
+        (2, _("Intermediate")),
+        (3, _("Advanced")),
+        (4, _("Expert")),
     )
+
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='question')
+    title = models.CharField(max_length=511)
+    created_date = models.DateTimeField(auto_now_add=True, verbose_name=_("Created Date"))
+    scale = models.IntegerField(default=0, choices=SCALE, verbose_name=_("Scale"))
+    is_active = models.BooleanField(default=False, verbose_name=_("Active Status"))
+
+    class Meta:
+        verbose_name = _("Question")
+        verbose_name_plural = ("Questions")
+        ordering = ["id", ]
+
+    def __str__(self):
+        return self.title
+
+
+class Answer(Update):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answer')
+    answer_text = models.CharField(max_length=255, verbose_name=_("Answer Text"))
+    is_true = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = _("Answer")
+        verbose_name_plural = ("Answers")
+        ordering = ["id", ]
 
     def __str__(self):
         return self.answer_text
-
-    class Meta:
-        verbose_name = 'текст ответа'
-        verbose_name_plural = 'тексты ответов'
-
-
-class Question(models.Model):
-    category = models.ForeignKey(
-        Category,
-        on_delete=models.DO_NOTHING,
-        verbose_name='категория'
-    )
-    question_text = models.CharField(
-        max_length=255,
-        verbose_name='текст вопроса'
-    )
-    answer = models.OneToOneField(
-        'Answer',
-        on_delete=models.CASCADE,
-        related_name='correct_answer',
-        null=True,
-        blank=True,
-        verbose_name='правильный ответ'
-    )
-    choices = models.ManyToManyField(
-        Answer,
-        related_name='choices',
-        verbose_name='выбор ответа'
-    )
-
-    def __str__(self):
-        return self.question_text
-
-
-class Quiz(models.Model):
-    category = models.OneToOneField(
-        Category,
-        on_delete=models.CASCADE,
-        verbose_name='категория'
-    )
-    quiz_title = models.CharField(
-        max_length=255,
-        verbose_name='заголовок теста'
-    )
-    question = models.ManyToManyField(
-        Question,
-        blank=True,
-        verbose_name='вопрос'
-    )
-
-    class Meta:
-        verbose_name = 'тест'
-        verbose_name_plural = 'тесты'
-
-    def __str__(self):
-        return self.quiz_title

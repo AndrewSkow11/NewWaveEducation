@@ -1,31 +1,33 @@
+from dataclasses import field
 from rest_framework import serializers
+from .models import Quiz, Question, Answer
 
-from .models import Answer, Category, Question
+class QuizSerializer(serializers.ModelSerializer):
+    category = serializers.StringRelatedField()
 
-
-class CategorySerializer(serializers.ModelSerializer):
     class Meta:
-        model = Category
-        fields = '__all__'
-        read_only_fields = ('__all__',)
+        model = Quiz
+        fields = ['title', 'category',]
 
 
-class ChoiceSerializer(serializers.ModelSerializer):
+class AnswerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Answer
-        fields = ('id', 'answer_text')
+        fields = ['answer_text', 'is_true',]
 
 
-class QuestionSerializer(serializers.ModelSerializer):
-    choices = serializers.SerializerMethodField()
-
-    def get_choices(self, obj):
-        ordered_queryset = Answer.objects.filter(
-            choices__id=obj.id
-        ).order_by('?')
-        return ChoiceSerializer(
-            ordered_queryset, many=True, context=self.context).data
+class RandomQuestionSerializer(serializers.ModelSerializer):
+    answer = AnswerSerializer(many=True, read_only=True)
 
     class Meta:
         model = Question
-        fields = ('question_text', 'choices')
+        fields = ['title', 'answer',]
+
+
+class QuizQuestionSerializer(serializers.ModelSerializer):
+    answer = AnswerSerializer(many=True, read_only=True)
+    quiz = QuizSerializer(read_only=True)
+
+    class Meta:
+        model = Question
+        fields = ['quiz', 'title', 'answer',]
