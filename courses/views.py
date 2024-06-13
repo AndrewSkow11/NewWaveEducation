@@ -1,6 +1,4 @@
-from rest_framework import generics
 from courses.serializers import MaterialSerializer, SectionSerializer
-from django.contrib.auth.mixins import LoginRequiredMixin
 from rest_framework.generics import (
     CreateAPIView,
     RetrieveAPIView,
@@ -19,9 +17,7 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 class MaterialCreateAPIView(CreateAPIView):
     queryset = Material.objects.all()
     serializer_class = MaterialSerializer
-    permission_classes = [
-        IsAdminUser,
-    ]
+    permission_classes = [IsAdminUser, ]
 
     def perform_create(self, serializer):
         new_lesson = serializer.save()

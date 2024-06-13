@@ -1,13 +1,25 @@
 from django.shortcuts import render
-
-# Create your views here.
-from django.shortcuts import render
 from django.http import HttpResponse, HttpRequest
 from django.db.models import Count
 from .models import Quiz, Question, Answer
-from django.core.paginator import Paginator
 from typing import Optional
 from django.contrib.auth.decorators import login_required
+
+from quiz.serializers import AnswerSerializer, QuizSerializer, QuestionSerializer
+from rest_framework.generics import (
+    CreateAPIView,
+    RetrieveAPIView,
+    UpdateAPIView,
+    DestroyAPIView,
+    ListAPIView,
+)
+
+from rest_framework.viewsets import ModelViewSet
+
+from courses.models import Section, Material
+from courses.permissions import IsOwner
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
+
 
 @login_required
 def start_quiz_view(request) -> HttpResponse:
@@ -15,6 +27,7 @@ def start_quiz_view(request) -> HttpResponse:
     return render(
         request, 'start.html', context={'topics': topics}
     )
+
 
 @login_required
 def get_questions(request, is_start=False) -> HttpResponse:
@@ -33,10 +46,12 @@ def get_questions(request, is_start=False) -> HttpResponse:
         'question': question, 'answers': answers
     })
 
+
 @login_required
 def _get_first_question(request) -> Question:
     quiz_id = request.POST['quiz_id']
     return Question.objects.filter(quiz_id=quiz_id).order_by('id').first()
+
 
 @login_required
 def _get_subsequent_question(request) -> Optional[Question]:
@@ -49,6 +64,7 @@ def _get_subsequent_question(request) -> Optional[Question]:
         ).order_by('id').first()
     except Question.DoesNotExist:  # I.e., there are no more questions.
         return None
+
 
 @login_required
 def get_answer(request) -> HttpResponse:
@@ -70,6 +86,7 @@ def get_answer(request) -> HttpResponse:
         }
     )
 
+
 @login_required
 def get_finish(request) -> HttpResponse:
     quiz = Question.objects.get(id=request.session['question_id']).quiz
@@ -82,6 +99,7 @@ def get_finish(request) -> HttpResponse:
         'questions_count': questions_count, 'score': score, 'percent_score': percent
     })
 
+
 @login_required
 def _reset_quiz(request) -> HttpRequest:
     """
@@ -92,3 +110,79 @@ def _reset_quiz(request) -> HttpRequest:
     if 'score' in request.session:
         del request.session['score']
     return request
+
+
+# API
+
+# Answer
+
+class AnswerAPIViewSet(ModelViewSet):
+    queryset = Answer.objects.all()
+    serializer_class = AnswerSerializer
+    permission_classes = [
+        IsAuthenticated,
+    ]
+
+    def get_permissions(self):
+        if self.action == 'create':
+            self.permission_classes = [IsAdminUser]
+        elif self.action == 'list':
+            self.permission_classes = [IsAuthenticated]
+        elif self.action == 'retrieve':
+            self.permission_classes = [IsOwner]
+        elif self.action == 'update':
+            self.permission_classes = [IsOwner]
+        elif self.action == 'destroy':
+            self.permission_classes = [IsOwner]
+        return [permission() for permission in self.permission_classes]
+
+    def perform_update(self, serializer):
+        answer = serializer.save()
+        answer_id = answer.id
+
+
+# Question
+class QuestionAPIViewSet(ModelViewSet):
+    queryset = Question.objects.all()
+    serializer_class = QuestionSerializer
+    permission_classes = [IsAuthenticated, ]
+
+    def get_permissions(self):
+        if self.action == 'create':
+            self.permission_classes = [IsAdminUser]
+        elif self.action == 'list':
+            self.permission_classes = [IsAuthenticated]
+        elif self.action == 'retrieve':
+            self.permission_classes = [IsOwner]
+        elif self.action == 'update':
+            self.permission_classes = [IsOwner]
+        elif self.action == 'destroy':
+            self.permission_classes = [IsOwner]
+        return [permission() for permission in self.permission_classes]
+
+    def perform_update(self, serializer):
+        question = serializer.save()
+        question_id = question.id
+
+# Quiz
+class QuizAPIViewSet(ModelViewSet):
+    queryset = Quiz.objects.all()
+    serializer_class = QuizSerializer
+    permission_classes = [IsAuthenticated, ]
+
+    def get_permissions(self):
+        if self.action == 'create':
+            self.permission_classes = [IsAdminUser]
+        elif self.action == 'list':
+            self.permission_classes = [IsAuthenticated]
+        elif self.action == 'retrieve':
+            self.permission_classes = [IsOwner]
+        elif self.action == 'update':
+            self.permission_classes = [IsOwner]
+        elif self.action == 'destroy':
+            self.permission_classes = [IsOwner]
+        return [permission() for permission in self.permission_classes]
+
+    def perform_update(self, serializer):
+        quiz = serializer.save()
+        quiz_id = quiz.id

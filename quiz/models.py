@@ -1,10 +1,19 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Quiz(models.Model):
     name = models.CharField(
         verbose_name='Название теста',
         max_length=300)
+    owner = models.ForeignKey(
+        User,
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        verbose_name='создатель',
+        related_name='owner_quiz'
+    )
 
     class Meta:
         verbose_name = 'тест'
@@ -24,6 +33,14 @@ class Question(models.Model):
         max_length=300,
         verbose_name='текст вопроса'
     )
+    owner = models.ForeignKey(
+        User,
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        verbose_name='создатель',
+        related_name='owner_question'
+    )
 
     class Meta:
         verbose_name = 'вопрос'
@@ -42,6 +59,14 @@ class Answer(models.Model):
         max_length=300,
         verbose_name='текст ответа')
     is_correct = models.BooleanField(default=False, verbose_name='правильность ответа')
+    owner = models.ForeignKey(
+        User,
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        verbose_name='создатель',
+        related_name='owner_answer'
+    )
 
     class Meta:
         verbose_name = 'ответ'
