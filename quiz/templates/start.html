@@ -1,154 +1,176 @@
+{% extends 'base.html' %}
+
 <!--<!DOCTYPE html>-->
 <!--<html lang="en">-->
 <!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>Выберете тест:</title>-->
-<!--    <script src="https://unpkg.com/htmx.org@1.9.10"></script>-->
+<!--  <meta charset="UTF-8">-->
+<!--  <title>Start your quiz -->
+<!--  -->
+<!--  -->
+<!--  </title>-->
+<!--  <script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>-->
+<!--  <style>-->
+<!--    body {-->
+<!--      font-family: 'Arial', sans-serif;-->
+<!--      background-color: #f0f0f0;-->
+<!--      color: #333;-->
+<!--      line-height: 1.6;-->
+<!--      padding: 20px;-->
+<!--    }-->
 
-<!--    <style>-->
-<!--        body {-->
-<!--          font-family: 'Arial', sans-serif;-->
-<!--          background-color: #f0f0f0;-->
-<!--          color: #333;-->
-<!--          line-height: 1.6;-->
-<!--          padding: 20px;-->
-<!--        }-->
+<!--    #topic-container {-->
+<!--      background-color: #fff;-->
+<!--      padding: 20px;-->
+<!--      border-radius: 8px;-->
+<!--      box-shadow: 0 2px 4px rgba(0,0,0,0.1);-->
+<!--      margin: auto;-->
+<!--      width: 50%;-->
+<!--    }-->
 
-<!--        #topic-container {-->
-<!--          background-color: #fff;-->
-<!--          padding: 20px;-->
-<!--          border-radius: 8px;-->
-<!--          box-shadow: 0 2px 4px rgba(0,0,0,0.1);-->
-<!--          margin: auto;-->
-<!--          width: 50%;-->
-<!--        }-->
+<!--    #topic-list {-->
+<!--      justify-content: center;-->
+<!--      display: flex;-->
+<!--      flex-direction: column;-->
+<!--      align-items: center;-->
+<!--      padding: 20px;-->
+<!--    }-->
 
-<!--        #topic-list {-->
-<!--          justify-content: center;-->
-<!--          display: flex;-->
-<!--          flex-direction: column;-->
-<!--          align-items: center;-->
-<!--          padding: 20px;-->
-<!--        }-->
+<!--    #question-form {-->
+<!--      padding: 20px;-->
+<!--    }-->
 
-<!--        #question-form {-->
-<!--          padding: 20px;-->
-<!--        }-->
+<!--    .option{-->
+<!--      border-radius: 10px;-->
+<!--    }-->
 
-<!--        .option{-->
-<!--          border-radius: 10px;-->
-<!--        }-->
+<!--    .option input[type="radio"] {-->
+<!--      display: none; /* Hide the radio button */-->
+<!--    }-->
 
-<!--        .option input[type="radio"] {-->
-<!--          display: none; /* Hide the radio button */-->
-<!--        }-->
+<!--    .option label {-->
+<!--      display: block;-->
+<!--      padding: 10px 20px;-->
+<!--      background-color: #eeeeee;-->
+<!--      border-radius: 5px;-->
+<!--      margin: 5px 0;-->
+<!--      cursor: pointer;-->
+<!--      transition: background-color 0.3s;-->
+<!--    }-->
 
-<!--        .option label {-->
-<!--          display: block;-->
-<!--          padding: 10px 20px;-->
-<!--          background-color: #eeeeee;-->
-<!--          border-radius: 5px;-->
-<!--          margin: 5px 0;-->
-<!--          cursor: pointer;-->
-<!--          transition: background-color 0.3s;-->
-<!--        }-->
+<!--    .option label:hover {-->
+<!--      background-color: #c9c9c9;-->
+<!--    }-->
 
-<!--        .option label:hover {-->
-<!--          background-color: #c9c9c9;-->
-<!--        }-->
+<!--    .option input[type="radio"]:checked + label {-->
+<!--      background-color: #818181;-->
+<!--      color: #fff;-->
+<!--    }-->
 
-<!--        .option input[type="radio"]:checked + label {-->
-<!--          background-color: #818181;-->
-<!--          color: #fff;-->
-<!--        }-->
+<!--    #heading-text {-->
+<!--      text-align: center;-->
+<!--    }-->
 
-<!--        #heading-text {-->
-<!--          text-align: center;-->
-<!--        }-->
+<!--    .btn {-->
+<!--      background-color: #007bff;-->
+<!--      color: #fff;-->
+<!--      border: none;-->
+<!--      padding: 10px 20px;-->
+<!--      border-radius: 5px;-->
+<!--      cursor: pointer;-->
+<!--      transition: background-color 0.3s ease-out;-->
+<!--      display: block;-->
+<!--      margin: 20px auto;-->
+<!--    }-->
 
-<!--        .btn {-->
-<!--          background-color: #007bff;-->
-<!--          color: #fff;-->
-<!--          border: none;-->
-<!--          padding: 10px 20px;-->
-<!--          border-radius: 5px;-->
-<!--          cursor: pointer;-->
-<!--          transition: background-color 0.3s ease-out;-->
-<!--          display: block;-->
-<!--          margin: 20px auto;-->
-<!--        }-->
-
-<!--        .btn:hover {-->
-<!--          background-color: #0056b3;-->
-<!--        }-->
-<!--    </style>-->
-
-
+<!--    .btn:hover {-->
+<!--      background-color: #0056b3;-->
+<!--    }-->
+<!--  </style>-->
 <!--</head>-->
+
+
 <!--<body>-->
 
-{% extends 'base.html' %}
+<!--<form id="topic-container" hx-post="{% url 'get-questions' %}/start">-->
+<!--  {% csrf_token %}-->
+<!--  <h2 id="heading-text">-->
+<!--    What would you like to learn about?-->
+<!--  </h2>-->
+<!--  <div id="topic-list">-->
 
-{% block content %}
+<!--    <p>Please pick a topic from the below topics</p>-->
 
+<!--    <ol style="list-style-type: none;">-->
 
-<script src="https://unpkg.com/htmx.org@1.9.10"></script>
+<!--      {% for topic in topics %}-->
+<!--      <li class="option">-->
+<!--        <input type="radio" id="topic-{{ forloop.counter0 }}" value="{{ topic.id }}" name="quiz_id" required>-->
+<!--        <label for="topic-{{ forloop.counter0 }}">{{ topic.name }} ({{ topic.questions_count }} questions)</label>-->
+<!--      </li>-->
+<!--      {% endfor %}-->
 
-<div class="container">
-    <div class="row">
+<!--      {% if not topics %}-->
+<!--      <li>No topics available. Have you added topics into your database?</li>-->
+<!--      {% endif %}-->
 
-        <form id="topic-container" hx-post="{% url 'get-questions' %}/start">
-            {% csrf_token %}
-            <div class="col-12">
+<!--    </ol>-->
 
+<!--    <button class="btn" type="submit">Start your quiz</button>-->
+<!--  </div>-->
+<!--</form>-->
 
-
-
-                <div class="card text-center" style="padding:20px; margin:10px;">
-                    <div class="card-header">
-                        Выбор теста
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Special title treatment</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                    <div class="card-footer text-muted">
-                        2 days ago
-                    </div>
-                </div>
-
-
-
-
-                <h2 id="heading-text">Выбор теста</h2>
-                <div id="topic-list">
-
-                    <p>Выберите тест из списка ниже</p>
-
-                    <ol style="list-style-type: none;">
-
-                        {% for topic in topics %}
-                        <li class="option">
-                            <input type="radio" id="topic-{{ forloop.counter0 }}" value="{{ topic.id }}" name="quiz_id"
-                                   required>
-                            <label for="topic-{{ forloop.counter0 }}">{{ topic.name }} ({{ topic.questions_count }}
-                                questions)</label>
-                        </li>
-                        {% endfor %}
-
-                        {% if not topics %}
-                        <li>Тесты не найдены!</li>
-                        {% endif %}
-
-                    </ol>
-                </div>
-                <button class="btn btn-dark" type="submit">Начать тест</button>
-            </div>
-        </form>
-    </div>
-</div>
-{% endblock %}
 
 <!--</body>-->
 <!--</html>-->
+
+{% block title %}
+<title>Выбрать тест</title>
+{% endblock %}
+
+
+{% block content%}
+<form id="topic-container" hx-post="{% url 'get-questions' %}/start">
+    {% csrf_token %}
+    <div id="topic-list">
+        <div class="card-header">
+            <h2>Выберете тематический тест</h2>
+        </div>
+
+
+        <div class="card-body">
+            <div class="list-group">
+                <ol style="list-style-type: none;" class=list-group ist-group list-group-flush">
+
+
+                    {% for topic in topics %}
+                    <li class="list-group-item">
+                        <input type="radio" id="topic-{{ forloop.counter0 }}" value="{{ topic.id }}" name="quiz_id"
+                               required>
+                        <label for="topic-{{ forloop.counter0 }}">
+                            <strong>{{ topic.name }}</strong>
+                            <em>(Воросов: {{ topic.questions_count }} )</em></label>
+
+                    </li>
+                    {% endfor %}
+
+                    {% if not topics %}
+                    <li>No topics available. Have you added topics into your database?</li>
+                    {% endif %}
+
+                </ol>
+            </div>
+        </div>
+
+        <div class="card-footer">
+            <div class="d-grid gap-2">
+                <button class="btn btn-dark btn-block" type="submit">Начать тест</button>
+            </div>
+        </div>
+
+    </div>
+</form>
+
+<script src="https://unpkg.com/htmx.org@1.9.10"></script>
+
+
+{% endblock %}
