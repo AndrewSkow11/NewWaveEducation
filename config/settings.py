@@ -33,8 +33,7 @@ INSTALLED_APPS = [
     'courses.apps.CoursesConfig',
     'rest_framework',
     'quiz.apps.QuizConfig',
-    'rest_framework_simplejwt',
-    'rest_framework_simplejwt.token_blacklist',
+    'accounts',
     # standard apps
     "django.contrib.admin",
     "django.contrib.auth",
