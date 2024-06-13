@@ -1,29 +1,93 @@
-from courses.models import Section, Material
 from rest_framework import generics
 from courses.serializers import MaterialSerializer, SectionSerializer
-from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.mixins import LoginRequiredMixin
+from rest_framework.generics import (
+    CreateAPIView,
+    RetrieveAPIView,
+    UpdateAPIView,
+    DestroyAPIView,
+    ListAPIView,
+)
+from courses.models import Section, Material
+from courses.permissions import IsOwner
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 
-class MaterialListAPIView(LoginRequiredMixin, generics.ListAPIView):
+# --------------
+# Material
+# --------------
+class MaterialCreateAPIView(CreateAPIView):
     queryset = Material.objects.all()
     serializer_class = MaterialSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [
+        IsAdminUser,
+    ]
+
+    def perform_create(self, serializer):
+        new_lesson = serializer.save()
+        new_lesson.owner = self.request.user
+        new_lesson.save()
 
 
-class MaterialRetrieveAPIView(LoginRequiredMixin, generics.RetrieveAPIView):
+class MaterialListAPIView(ListAPIView):
+    serializer_class = MaterialSerializer
+    queryset = Material.objects.all()
+    permission_classes = [
+        IsAuthenticated,
+    ]
+
+
+class MaterialRetrieveAPIView(RetrieveAPIView):
     queryset = Material.objects.all()
     serializer_class = MaterialSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsOwner, IsAdminUser]
 
 
-class SectionListAPIView(LoginRequiredMixin, generics.ListAPIView):
+class MaterialUpdateAPIView(UpdateAPIView):
+    queryset = Material.objects.all()
+    serializer_class = MaterialSerializer
+    permission_classes = [IsOwner, IsAdminUser]
+
+
+class MaterialDestroyAPIView(DestroyAPIView):
+    queryset = Material.objects.all()
+    serializer_class = MaterialSerializer
+    permission_classes = [IsAdminUser, IsOwner]
+
+
+# --------------
+# Section
+# --------------
+class SectionCreateAPIView(CreateAPIView):
     queryset = Section.objects.all()
     serializer_class = SectionSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminUser, ]
+
+    def perform_create(self, serializer):
+        new_lesson = serializer.save()
+        new_lesson.owner = self.request.user
+        new_lesson.save()
 
 
-class SectionRetrieveAPIView(LoginRequiredMixin, generics.RetrieveAPIView):
+class SectionListAPIView(ListAPIView):
+    serializer_class = SectionSerializer
+    queryset = Section.objects.all()
+    permission_classes = [IsAuthenticated, ]
+
+
+class SectionRetrieveAPIView(RetrieveAPIView):
     queryset = Section.objects.all()
     serializer_class = SectionSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsOwner, IsAdminUser]
+
+
+class SectionUpdateAPIView(UpdateAPIView):
+    queryset = Section.objects.all()
+    serializer_class = SectionSerializer
+    permission_classes = [IsOwner, IsAdminUser]
+
+
+class SectionDestroyAPIView(DestroyAPIView):
+    queryset = Section.objects.all()
+    serializer_class = SectionSerializer
+    permission_classes = [IsAdminUser, IsOwner]

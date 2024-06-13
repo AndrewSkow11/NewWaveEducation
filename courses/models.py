@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 from quiz.models import Quiz
 
 
@@ -10,6 +10,14 @@ class Section(models.Model):
         verbose_name='описание',
         null=True,
         blank=True),
+    owner = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name='создатель',
+        related_name='owner_section'
+    )
     
     class Meta:
         verbose_name = 'раздел'
@@ -57,6 +65,14 @@ class Material(models.Model):
         blank=True,
         null=True,
         related_name='quiz'
+    )
+    owner = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name='создатель',
+        related_name='owner'
     )
 
     def __str__(self):
