@@ -24,7 +24,7 @@ class Material(models.Model):
     текстовый контент, видео, файл"""
     section = models.ForeignKey(
         Section, 
-        verbose_name='учебный материал',
+        verbose_name='раздел',
         related_name='material',
         on_delete=models.SET_NULL,
         null=True, 
