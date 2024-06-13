@@ -1,5 +1,8 @@
 from django.db import models
 
+from quiz.models import Quiz
+
+
 class Section(models.Model):
     """Модель описывает разделы учебных матриалов"""
     title = models.CharField(max_length=255, verbose_name='заголовок')
@@ -46,6 +49,14 @@ class Material(models.Model):
         verbose_name='ссылка на видео',
         null=True,
         blank=True,
+    )
+    quiz = models.ForeignKey(
+        Quiz,
+        on_delete=models.SET_NULL,
+        verbose_name='тестовый материал',
+        blank=True,
+        null=True,
+        related_name='quiz'
     )
 
     def __str__(self):
