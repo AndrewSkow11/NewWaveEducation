@@ -1,22 +1,26 @@
 {% extends "base.html" %}
 
-{% block title %}Log-in{% endblock %}
 
 {% block content %}
-  <h1>Log-in</h1>
-  <div class="module">
+<div class="card-header">
+    <h1>Вход в систему</h1>
+</div>
+<div class="module card-body">
     {% if form.errors %}
-      <p>Your username and password didn't match. Please try again.</p>
+    <p>Неверный логин или пароль, попробуйте ещё раз.</p>
     {% else %}
-      <p>Please, use the following form to log-in:</p>
+    <p>Пожалуйтса, введите свои логин и пароль</p>
     {% endif %}
-    <div class="login-form">
-      <form action="{% url 'login' %}" method="post">
-        {{ form.as_p }}
-        {% csrf_token %}
-        <input type="hidden" name="next" value="{{ next }}" />
-        <p><input type="submit" value="Log-in"></p>
-      </form>
+    <div class="login-form mb-3">
+        <form action="{% url 'login' %}" method="post">
+            <div class="col-auto">
+
+                {{ form.as_p }}
+                {% csrf_token %}
+                <input type="hidden" class="form-control" name="next" value="{{ next }}"/>
+                <p><input class="btn btn-dark" class="form-control" type="submit" value="Войти"></p>
+            </div>
+        </form>
     </div>
-  </div>
+</div>
 {% endblock %}
