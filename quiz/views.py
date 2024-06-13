@@ -7,15 +7,16 @@ from django.db.models import Count
 from .models import Quiz, Question, Answer
 from django.core.paginator import Paginator
 from typing import Optional
+from django.contrib.auth.decorators import login_required
 
-
+@login_required
 def start_quiz_view(request) -> HttpResponse:
     topics = Quiz.objects.all().annotate(questions_count=Count('question'))
     return render(
         request, 'start.html', context={'topics': topics}
     )
 
-
+@login_required
 def get_questions(request, is_start=False) -> HttpResponse:
     if is_start:
         request = _reset_quiz(request)
@@ -32,12 +33,12 @@ def get_questions(request, is_start=False) -> HttpResponse:
         'question': question, 'answers': answers
     })
 
-
+@login_required
 def _get_first_question(request) -> Question:
     quiz_id = request.POST['quiz_id']
     return Question.objects.filter(quiz_id=quiz_id).order_by('id').first()
 
-
+@login_required
 def _get_subsequent_question(request) -> Optional[Question]:
     quiz_id = request.POST['quiz_id']
     previous_question_id = request.session['question_id']
@@ -49,7 +50,7 @@ def _get_subsequent_question(request) -> Optional[Question]:
     except Question.DoesNotExist:  # I.e., there are no more questions.
         return None
 
-
+@login_required
 def get_answer(request) -> HttpResponse:
     submitted_answer_id = request.POST['answer_id']
     submitted_answer = Answer.objects.get(id=submitted_answer_id)
@@ -69,7 +70,7 @@ def get_answer(request) -> HttpResponse:
         }
     )
 
-
+@login_required
 def get_finish(request) -> HttpResponse:
     quiz = Question.objects.get(id=request.session['question_id']).quiz
     questions_count = Question.objects.filter(quiz=quiz).count()
@@ -81,7 +82,7 @@ def get_finish(request) -> HttpResponse:
         'questions_count': questions_count, 'score': score, 'percent_score': percent
     })
 
-
+@login_required
 def _reset_quiz(request) -> HttpRequest:
     """
     We reset the quiz state to allow the user to start another quiz.
