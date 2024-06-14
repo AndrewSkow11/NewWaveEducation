@@ -1,26 +1,32 @@
 {% extends "base.html" %}
 
+{% block title %}
+<title>Вход в систему</title>
+{% endblock %}
 
 {% block content %}
-<div class="card-header">
-    <h1>Вход в систему</h1>
-</div>
-<div class="module card-body">
-    {% if form.errors %}
-    <p>Неверный логин или пароль, попробуйте ещё раз.</p>
-    {% else %}
-    <p>Пожалуйтса, введите свои логин и пароль</p>
-    {% endif %}
-    <div class="login-form mb-3">
-        <form action="{% url 'login' %}" method="post">
-            <div class="col-auto">
-
-                {{ form.as_p }}
+<div class="card border-primary mt-5">
+    <div class="card-header bg-primary text-white">
+        <h1 class="mb-0">Вход в систему</h1>
+    </div>
+    <div class="card-body">
+        {% if form.errors %}
+        <div class="alert alert-danger" role="alert">
+            <p>Неверный логин или пароль, попробуйте ещё раз.</p>
+        </div>
+        {% else %}
+        <p>Пожалуйста, введите свой логин и пароль</p>
+        {% endif %}
+        <div class="login-form">
+            <form action="{% url 'login' %}" method="post">
+                <div class="mb-3">
+                    {{ form.as_p }}
+                </div>
                 {% csrf_token %}
-                <input type="hidden" class="form-control" name="next" value="{{ next }}"/>
-                <p><input class="btn btn-dark" class="form-control" type="submit" value="Войти"></p>
-            </div>
-        </form>
+                <input type="hidden" class="form-control" name="next" value="{{ next }}">
+                <button type="submit" class="btn btn-primary">Войти</button>
+            </form>
+        </div>
     </div>
 </div>
 {% endblock %}

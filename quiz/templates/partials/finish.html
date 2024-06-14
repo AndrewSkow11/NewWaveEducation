@@ -1,9 +1,22 @@
-<div>
-  <p>Тест завершён, вы набрали {{ percent_score }} %</p>
-  <p>({{ score }} correct / {{ questions_count }} questions)</p>
+{% extends 'base.html' %}
 
-  <a class="btn" href="{% url 'start' %}">
-    Выбрать другой тест
-  </a>
+{% block title %}
+<title>Тест завершён</title>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <p>Тест завершён, вы набрали {{ percent_score }} %</p>
+            <p>({{ score }} correct / {{ questions_count }} questions)</p>
+
+            <a class="btn btn-primary mt-3" href="{% url 'start' %}">
+                Выбрать другой тест
+            </a>
+        </div>
+    </div>
 </div>
 
+{% endblock %}
