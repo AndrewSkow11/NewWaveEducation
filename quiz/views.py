@@ -125,7 +125,7 @@ class AnswerAPIViewSet(ModelViewSet):
         elif self.action == 'list':
             self.permission_classes = [IsAuthenticated]
         elif self.action == 'retrieve':
-            self.permission_classes = [IsOwner]
+            self.permission_classes = [IsAuthenticated]
         elif self.action == 'update':
             self.permission_classes = [IsOwner]
         elif self.action == 'destroy':
@@ -146,7 +146,6 @@ class AnswerAPIViewSet(ModelViewSet):
 class QuestionAPIViewSet(ModelViewSet):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
-    permission_classes = [IsAuthenticated, ]
     filter_backends = [DjangoFilterBackend]
     filterset_fields = '__all__'
 
@@ -156,7 +155,7 @@ class QuestionAPIViewSet(ModelViewSet):
         elif self.action == 'list':
             self.permission_classes = [IsAuthenticated]
         elif self.action == 'retrieve':
-            self.permission_classes = [IsOwner]
+            self.permission_classes = [IsAuthenticated]
         elif self.action == 'update':
             self.permission_classes = [IsOwner]
         elif self.action == 'destroy':
@@ -187,7 +186,7 @@ class QuizAPIViewSet(ModelViewSet):
         elif self.action == 'list':
             self.permission_classes = [IsAuthenticated]
         elif self.action == 'retrieve':
-            self.permission_classes = [IsOwner]
+            self.permission_classes = [IsAuthenticated]
         elif self.action == 'update':
             self.permission_classes = [IsOwner]
         elif self.action == 'destroy':

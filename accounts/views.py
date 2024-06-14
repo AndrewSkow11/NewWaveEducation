@@ -17,7 +17,7 @@ from django.contrib.auth.decorators import login_required
 class UserListAPIView(ListAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, ]
     filter_backends = [DjangoFilterBackend]
     filterset_fields = '__all__'
 

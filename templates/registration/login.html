@@ -5,27 +5,29 @@
 {% endblock %}
 
 {% block content %}
-<div class="card border-primary mt-5">
-    <div class="card-header bg-primary text-white">
-        <h1 class="mb-0">Вход в систему</h1>
-    </div>
-    <div class="card-body">
-        {% if form.errors %}
-        <div class="alert alert-danger" role="alert">
-            <p>Неверный логин или пароль, попробуйте ещё раз.</p>
+<div style="padding: 20px">
+    <div class="card border-primary mt-5">
+        <div class="card-header bg-primary text-white">
+            <h1 class="mb-0">Вход в систему</h1>
         </div>
-        {% else %}
-        <p>Пожалуйста, введите свой логин и пароль</p>
-        {% endif %}
-        <div class="login-form">
-            <form action="{% url 'login' %}" method="post">
-                <div class="mb-3">
-                    {{ form.as_p }}
-                </div>
-                {% csrf_token %}
-                <input type="hidden" class="form-control" name="next" value="{{ next }}">
-                <button type="submit" class="btn btn-primary">Войти</button>
-            </form>
+        <div class="card-body">
+            {% if form.errors %}
+            <div class="alert alert-danger" role="alert">
+                <p>Неверный логин или пароль, попробуйте ещё раз.</p>
+            </div>
+            {% else %}
+            <p>Пожалуйста, введите свой логин и пароль</p>
+            {% endif %}
+            <div class="login-form">
+                <form action="{% url 'login' %}" method="post">
+                    <div class="mb-3">
+                        {{ form.as_p }}
+                    </div>
+                    {% csrf_token %}
+                    <input type="hidden" class="form-control" name="next" value="{{ next }}">
+                    <button type="submit" class="btn btn-primary">Войти</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>

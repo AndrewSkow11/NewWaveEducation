@@ -45,7 +45,7 @@ class MaterialListAPIView(ListAPIView):
 class MaterialRetrieveAPIView(RetrieveAPIView):
     queryset = Material.objects.all()
     serializer_class = MaterialSerializer
-    permission_classes = [IsOwner, IsAdminUser]
+    permission_classes = [IsAuthenticated,]
 
 
 class MaterialUpdateAPIView(UpdateAPIView):
@@ -85,7 +85,7 @@ class SectionListAPIView(ListAPIView):
 class SectionRetrieveAPIView(RetrieveAPIView):
     queryset = Section.objects.all()
     serializer_class = SectionSerializer
-    permission_classes = [IsOwner, IsAdminUser]
+    permission_classes = [IsAuthenticated,]
 
 
 class SectionUpdateAPIView(UpdateAPIView):
