@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-from datetime import timedelta
+
 from pathlib import Path
 from dotenv import load_dotenv
 import os
@@ -36,13 +36,13 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     # project apps
-    'courses.apps.CoursesConfig',
-    'rest_framework',
-    'quiz.apps.QuizConfig',
-    'accounts',
-    'django_filters',
-    'drf_yasg',
-    'corsheaders',
+    "courses.apps.CoursesConfig",
+    "rest_framework",
+    "quiz.apps.QuizConfig",
+    "accounts",
+    "django_filters",
+    "drf_yasg",
+    "corsheaders",
     # standard apps
     "django.contrib.admin",
     "django.contrib.auth",
@@ -61,7 +61,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # added
-    'corsheaders.middleware.CorsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -70,7 +70,9 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         # "DIRS": [],
-        'DIRS': ['./templates', ],
+        "DIRS": [
+            "./templates",
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -145,19 +147,18 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': [
-        'django_filters.rest_framework.DjangoFilterBackend'
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend"
     ],
-
 }
 
-STATIC_URL = 'static/'
+STATIC_URL = "static/"
 
-MEDIA_URL = 'media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = "media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
+    "http://localhost:3000",
 ]
 
 CSRF_TRUSTED_ORIGINS = [

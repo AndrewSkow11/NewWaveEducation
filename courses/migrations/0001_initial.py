@@ -23,7 +23,10 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("title", models.CharField(max_length=255, verbose_name="заголовок")),
+                (
+                    "title",
+                    models.CharField(max_length=255, verbose_name="заголовок"),
+                ),
             ],
             options={
                 "verbose_name": "раздел",
@@ -42,11 +45,16 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("title", models.CharField(max_length=255, verbose_name="название")),
+                (
+                    "title",
+                    models.CharField(max_length=255, verbose_name="название"),
+                ),
                 (
                     "text_content",
                     models.TextField(
-                        blank=True, null=True, verbose_name="текстовая часть материала"
+                        blank=True,
+                        null=True,
+                        verbose_name="текстовая часть материала",
                     ),
                 ),
                 (

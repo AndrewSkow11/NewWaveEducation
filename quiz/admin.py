@@ -8,26 +8,16 @@ admin.site.register(Answer)
 class QuestionInlineModel(admin.TabularInline):
     model = Question
     fields = [
-        'quiz'
-        'text',
+        "quiz" "text",
     ]
 
 
 class AnswerInlineModel(admin.TabularInline):
     model = Answer
-    fields = [
-        'question',
-        'text',
-        'is_correct'
-    ]
+    fields = ["question", "text", "is_correct"]
 
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
-    fields = [
-        'quiz',
-        'text'
-    ]
-    inlines = [
-        AnswerInlineModel
-    ]
+    fields = ["quiz", "text"]
+    inlines = [AnswerInlineModel]

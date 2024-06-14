@@ -17,7 +17,10 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterModelOptions(
             name="question",
-            options={"verbose_name": "вопрос", "verbose_name_plural": "вопросы"},
+            options={
+                "verbose_name": "вопрос",
+                "verbose_name_plural": "вопросы",
+            },
         ),
         migrations.AlterModelOptions(
             name="quiz",
@@ -42,7 +45,9 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="answer",
             name="text",
-            field=models.CharField(max_length=300, verbose_name="текст ответа"),
+            field=models.CharField(
+                max_length=300, verbose_name="текст ответа"
+            ),
         ),
         migrations.AlterField(
             model_name="question",
@@ -56,11 +61,15 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="question",
             name="text",
-            field=models.CharField(max_length=300, verbose_name="текст вопроса"),
+            field=models.CharField(
+                max_length=300, verbose_name="текст вопроса"
+            ),
         ),
         migrations.AlterField(
             model_name="quiz",
             name="name",
-            field=models.CharField(max_length=300, verbose_name="Название теста"),
+            field=models.CharField(
+                max_length=300, verbose_name="Название теста"
+            ),
         ),
     ]
