@@ -22,17 +22,17 @@
 
 ## Используемые технологии
 
-- [ ] PostgreSQL
+- [x] PostgreSQL
 - [x] ORM
 - [x] Serializers
 - [x] Viewset/Generics
 - [x] Filter
-- [ ] Cors
+- [x] Cors
 - [x] Tests
 - [x] Git
 - [x] Readme
 - [ ] PEP8
-- [ ] Swagger
+- [x] Swagger
 
 ## Детали реализации
 
@@ -44,11 +44,11 @@
 - [x] Использованы сериалайзеры
 - [x] Использованы Viewset/Generic
 - [x] Использованы фильтры
-- [ ] Использован CORS
+- [x] Использован CORS
 - [x] Создано Readmi
 - [x] Проект выложен на GitHub
 - [ ] Проект соответствует PEP 8
-- [ ] Создана документация Swager
+- [x] Создана документация Swager
 
 ## Развёртывание проекта
 
@@ -82,7 +82,6 @@ python3 manage.py migrate
 ```bash
 python3 manage.py runserver
 ```
-
 
 
 ## Сфера использования (кому подойдёт ресурс):

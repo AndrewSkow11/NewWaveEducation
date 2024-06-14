@@ -14,12 +14,16 @@ from django_filters.rest_framework import DjangoFilterBackend
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
+
 class UserListAPIView(ListAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
-    permission_classes = [IsAuthenticated, ]
+    permission_classes = [
+        IsAuthenticated,
+    ]
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = '__all__'
+    filterset_fields = "__all__"
+
 
 class UserCreateAPIView(CreateAPIView):
     serializer_class = UserSerializerCreate
@@ -36,7 +40,5 @@ class UserRetrieveUpdateDestroy(RetrieveUpdateDestroyAPIView):
 @login_required
 def profile_view(request):
     user = request.user
-    context = {
-        'user': user
-    }
-    return render(request, 'accounts/profile.html', context)
+    context = {"user": user}
+    return render(request, "accounts/profile.html", context)

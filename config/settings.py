@@ -18,7 +18,6 @@ load_dotenv()
 env_path = Path(".") / ".env"
 load_dotenv(dotenv_path=env_path)
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -42,6 +41,8 @@ INSTALLED_APPS = [
     'quiz.apps.QuizConfig',
     'accounts',
     'django_filters',
+    'drf_yasg',
+    'corsheaders',
     # standard apps
     "django.contrib.admin",
     "django.contrib.auth",
@@ -59,6 +60,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # added
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -106,7 +109,6 @@ DATABASES = {
     }
 }
 
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
@@ -153,3 +155,14 @@ STATIC_URL = 'static/'
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://localhost:3000",
+    "https://localhost:8000",
+]
+
+CORS_ALLOW_ALL_ORIGINS = False
