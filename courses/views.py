@@ -1,3 +1,5 @@
+from django_filters.rest_framework import DjangoFilterBackend
+
 from courses.serializers import MaterialSerializer, SectionSerializer
 from rest_framework.generics import (
     CreateAPIView,
@@ -28,8 +30,15 @@ class MaterialCreateAPIView(CreateAPIView):
 class MaterialListAPIView(ListAPIView):
     serializer_class = MaterialSerializer
     queryset = Material.objects.all()
-    permission_classes = [
-        IsAuthenticated,
+    permission_classes = [IsAuthenticated, ]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = [
+        'title',
+        'section',
+        'title',
+        'text_content',
+        'quiz',
+        'owner'
     ]
 
 
@@ -69,6 +78,8 @@ class SectionListAPIView(ListAPIView):
     serializer_class = SectionSerializer
     queryset = Section.objects.all()
     permission_classes = [IsAuthenticated, ]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = '__all__'
 
 
 class SectionRetrieveAPIView(RetrieveAPIView):

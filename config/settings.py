@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'quiz.apps.QuizConfig',
     'accounts',
+    'django_filters',
     # standard apps
     "django.contrib.admin",
     "django.contrib.auth",
@@ -126,11 +127,14 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-    ]
+    ],
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend'
+    ],
+
 }
 
 STATIC_URL = 'static/'
-
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'

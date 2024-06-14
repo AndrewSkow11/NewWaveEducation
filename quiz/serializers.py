@@ -16,6 +16,6 @@ class QuestionSerializer(serializers.ModelSerializer):
 
 class QuizSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Question
+        model = Quiz
         fields = '__all__'
 

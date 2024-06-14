@@ -6,13 +6,7 @@ from typing import Optional
 from django.contrib.auth.decorators import login_required
 
 from quiz.serializers import AnswerSerializer, QuizSerializer, QuestionSerializer
-from rest_framework.generics import (
-    CreateAPIView,
-    RetrieveAPIView,
-    UpdateAPIView,
-    DestroyAPIView,
-    ListAPIView,
-)
+from django_filters.rest_framework import DjangoFilterBackend
 
 from rest_framework.viewsets import ModelViewSet
 
@@ -122,6 +116,8 @@ class AnswerAPIViewSet(ModelViewSet):
     permission_classes = [
         IsAuthenticated,
     ]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = '__all__'
 
     def get_permissions(self):
         if self.action == 'create':
@@ -135,6 +131,11 @@ class AnswerAPIViewSet(ModelViewSet):
         elif self.action == 'destroy':
             self.permission_classes = [IsOwner]
         return [permission() for permission in self.permission_classes]
+
+    def perform_create(self, serializer):
+        new_lesson = serializer.save()
+        new_lesson.owner = self.request.user
+        new_lesson.save()
 
     def perform_update(self, serializer):
         answer = serializer.save()
@@ -146,6 +147,8 @@ class QuestionAPIViewSet(ModelViewSet):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
     permission_classes = [IsAuthenticated, ]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = '__all__'
 
     def get_permissions(self):
         if self.action == 'create':
@@ -160,15 +163,23 @@ class QuestionAPIViewSet(ModelViewSet):
             self.permission_classes = [IsOwner]
         return [permission() for permission in self.permission_classes]
 
+    def perform_create(self, serializer):
+        new_lesson = serializer.save()
+        new_lesson.owner = self.request.user
+        new_lesson.save()
+
     def perform_update(self, serializer):
         question = serializer.save()
         question_id = question.id
+
 
 # Quiz
 class QuizAPIViewSet(ModelViewSet):
     queryset = Quiz.objects.all()
     serializer_class = QuizSerializer
     permission_classes = [IsAuthenticated, ]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = '__all__'
 
     def get_permissions(self):
         if self.action == 'create':
@@ -182,6 +193,11 @@ class QuizAPIViewSet(ModelViewSet):
         elif self.action == 'destroy':
             self.permission_classes = [IsOwner]
         return [permission() for permission in self.permission_classes]
+
+    def perform_create(self, serializer):
+        new_lesson = serializer.save()
+        new_lesson.owner = self.request.user
+        new_lesson.save()
 
     def perform_update(self, serializer):
         quiz = serializer.save()

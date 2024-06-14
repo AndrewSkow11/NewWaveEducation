@@ -10,13 +10,15 @@ from rest_framework.generics import (
     RetrieveUpdateDestroyAPIView,
 )
 from django.contrib.auth.models import User
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 class UserListAPIView(ListAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
     permission_classes = [IsAuthenticated]
-
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = '__all__'
 
 class UserCreateAPIView(CreateAPIView):
     serializer_class = UserSerializerCreate
