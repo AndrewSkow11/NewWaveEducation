@@ -6,50 +6,43 @@
 {% endblock %}
 
 {% block content %}
+
 <form hx-post="{% url 'get-questions' %}">
-  {% csrf_token %}
-  <input type="hidden" name="quiz_id" value="{{ answer.question.quiz_id }}">
+    {% csrf_token %}
 
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6">
-        <p>Вопрос</p>
-        <p>{{ answer.question.text }}</p>
-      </div>
-    </div>
+    <input type="hidden" name="quiz_id" value="{{ answer.question.quiz_id }}">
+    <div class="card">
+        <div class="card-header">Ваш ответ был принят!</div>
 
-    <br>
+        <div class="card-body">
+            <ul>
+                <li>
+                    <strong>Вопрос:</strong> <em><u>{{ answer.question.text }}</u></em>
+                </li>
 
-    <div class="row">
-      <div class="col-md-6">
-        <p>Ваш ответ:</p>
-        <p>{{ submitted_answer.text }}</p>
-      </div>
-    </div>
+                <li><strong>Ваш ответ:</strong> <em>{{ submitted_answer.text }}</em></li>
 
-    <div class="row">
-      <div class="col-md-6">
-        {% if submitted_answer.is_correct %}
-        <div>
-          <p>Правильно ✅</p>
+                <li>
+                    {% if submitted_answer.is_correct %}
+                    Правильно ✅
+                    {% else %}
+                    Неправильно ❌
+                </li>
+                <li>
+                    <strong>Правильный ответ:</strong>
+                    <em>{{ answer.text }}</em>
+                </li>
+                {% endif %}
+            </ul>
         </div>
-        {% else %}
-        <div>
-          <p>Incorrect ❌</p>
-          <p>Правильный ответ:</p>
-          <p>{{ answer.text }}</p>
-        </div>
-        {% endif %}
-      </div>
-    </div>
 
-    <div class="row">
-      <div class="col-md-6">
-        <button class="btn btn-primary">
-          Следующий вопрос
-        </button>
-      </div>
+
+        <div class="card-footer">
+            <button class="btn btn-dark">
+                Следующий вопрос
+            </button>
+        </div>
     </div>
-  </div>
 </form>
+
 {% endblock %}

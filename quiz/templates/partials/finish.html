@@ -6,17 +6,35 @@
 
 {% block content %}
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <p>Тест завершён, вы набрали {{ percent_score }} %</p>
-            <p>({{ score }} correct / {{ questions_count }} questions)</p>
+<div class="card">
 
-            <a class="btn btn-primary mt-3" href="{% url 'start' %}">
-                Выбрать другой тест
-            </a>
-        </div>
+    <div class="card-header"><h2>Тестирование завершено!</h2></div>
+
+    <div class="card-body">
+
+        <ul>
+            <li>
+                <strong>Правильных ответов: </strong>
+                <em>{{ percent_score }}</em> %
+            </li>
+
+            <li>
+                <em>{{ score }} правильных ответов </em>
+                    из
+                    <strong>{{ questions_count }} вопросов</strong>
+            </li>
+        </ul>
+
     </div>
+
+    <div class="card-footer">
+        <a class="btn btn-primary" href="{% url 'start' %}">
+            Выбрать другой тест
+        </a>
+    </div>
+
+
 </div>
+
 
 {% endblock %}

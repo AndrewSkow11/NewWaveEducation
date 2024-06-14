@@ -1,33 +1,41 @@
-
-
 <div>
 
-  <form id="question-form" hx-post="{% url 'get-answer' %}">
-    {% csrf_token %}
+    <form id="question-form" hx-post="{% url 'get-answer' %}">
+        {% csrf_token %}
+        <div class="card">
 
-    <h2 id="heading-text">
-      {{ question.text }}
-    </h2>
+            <div class="card-header">
 
-    <ol style="list-style-type: none;">
-      {% for answer in answers %}
-      <li class="option">
-        <input type="radio" id="answer-{{ forloop.counter0 }}" value="{{ answer.id }}" name="answer_id" required>
-        <label for="answer-{{ forloop.counter0 }}">{{ answer.text }}</label>
-      </li>
-      {% endfor %}
-    </ol>
+                <h2 id="heading-text">
+                    {{ question.text }}
+                </h2>
+            </div>
+            <div class="card-body">
+                <ol style="list-style-type: none;">
+                    {% for answer in answers %}
+                    <li class="option">
+                        <input type="radio" id="answer-{{ forloop.counter0 }}" value="{{ answer.id }}"
+                               name="answer_id" required>
+                        <label for="answer-{{ forloop.counter0 }}">{{ answer.text }}</label>
+                    </li>
+                    {% endfor %}
+                </ol>
+            </div>
 
-    <button class="btn" type="submit" >
-      Submit your answer
-    </button>
+            <div class="card-footer">
+                <button class="btn btn-dark" type="submit">
+                    Ответить
+                </button>
+            </div>
 
-  </form>
+        </div>
+
+    </form>
+
 </div>
 
 <script>
-  window.onbeforeunload = function(){
-    return "Are you sure you want to leave? You will lose your progress.";
-  };
+    window.onbeforeunload = function(){
+      return "Are you sure you want to leave? You will lose your progress.";
+    };
 </script>
-
