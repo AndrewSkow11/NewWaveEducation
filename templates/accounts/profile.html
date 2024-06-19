@@ -9,12 +9,16 @@
         </div>
         <div class="card-body">
             <p><strong>Имя пользователя:</strong> {{ user.username }}</p>
-            <p><strong>Email:</strong> {{ user.email }}</p>
+
+            <a href="/" type="button" class="btn btn-dark" style="width:500px; height:30px; margin-bottom: 10px;">На обзорную
+                страницу</a>
+
 
             <form id="logoutForm" method="post" action="{% url 'logout' %}">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-danger">Выход</button>
+                <button type="submit" style="width:500px; height:30px;" class="btn btn-danger">Выход</button>
             </form>
+
 
         </div>
 

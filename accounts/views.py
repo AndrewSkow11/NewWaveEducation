@@ -42,3 +42,6 @@ def profile_view(request):
     user = request.user
     context = {"user": user}
     return render(request, "accounts/profile.html", context)
+
+def index(request):
+    return render(request, "index.html")

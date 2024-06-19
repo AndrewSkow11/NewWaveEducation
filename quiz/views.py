@@ -155,10 +155,6 @@ class AnswerAPIViewSet(ModelViewSet):
         new_lesson.owner = self.request.user
         new_lesson.save()
 
-    def perform_update(self, serializer):
-        answer = serializer.save()
-        answer_id = answer.id
-
 
 # Question
 class QuestionAPIViewSet(ModelViewSet):
@@ -184,10 +180,6 @@ class QuestionAPIViewSet(ModelViewSet):
         new_lesson = serializer.save()
         new_lesson.owner = self.request.user
         new_lesson.save()
-
-    def perform_update(self, serializer):
-        question = serializer.save()
-        question_id = question.id
 
 
 # Quiz
@@ -217,7 +209,3 @@ class QuizAPIViewSet(ModelViewSet):
         new_lesson = serializer.save()
         new_lesson.owner = self.request.user
         new_lesson.save()
-
-    def perform_update(self, serializer):
-        quiz = serializer.save()
-        quiz_id = quiz.id
